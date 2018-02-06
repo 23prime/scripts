@@ -1,0 +1,16 @@
+#!/bin/sh
+# TA の採点の手間を多少省けるように．
+
+ls ./201******-**.hs >/dev/null 2>&1
+if [ $? -ne 0 ]
+then echo "no files to mark"
+     # 採点対象のファイルがないとき
+elif [ -e ./marked/ ]
+then echo "already marked"
+     # 採点済みファイルの上書き防止
+else mkdir marked/
+     cp 201******-**.hs marked/ # 返却用にコピー
+     cd marked/
+     nkf -w --overwrite 201******-**.hs # utf-8 にする
+     rename s/.hs/-okkey.hs/g ./201******-**.hs # 返却用に rename
+fi

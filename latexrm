@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# 削除対象ファイルの指定
+targets=(
+    *.dvi
+    *.aux
+    *.log
+    *.out
+    *.nav
+    *.toc
+    *.snm
+    *.vrb
+    *.loa
+    texput*
+)
+
+# 対象ファイルの探索して配列化
+files=()
+for i in ${targets[@]}; do
+    files+=(`find ./ -maxdepth 1 -name "${i}"`)
+done
+
+# 実行部
+if [ "${#files[@]}" -eq 0 ]; then # ファイルの有無を確認
+    echo "No such files."
+    exit 1
+else
+    for j in ${files[@]}; do # 対象ファイルの表示
+        echo "${j}"
+    done
+    echo "Remove these files? [Y/n]" # 削除実行の確認
+    read ANS
+    case $ANS in
+        "" | "Y" | "y" | "yes" | "Yes" | "YES" )
+            for i in ${files[@]}; do
+                rm -rf "${i}"
+            done
+            echo "Removed!" ;;
+        * )
+            echo "Canceled." ;;
+    esac
+    exit 0
+fi

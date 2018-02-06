@@ -1,0 +1,22 @@
+#!/bin/sh -eu
+
+ARG=$1
+
+if [ $# -ne 1 ]; then
+    echo "required just 1 argument!" 1>&2
+    exit 1
+else
+    # CSV データの更新
+    cd ~/csv-graph/
+    env WEIGHT=$1 stack exec csv-graph-exe
+
+    # CSV からグラフの描画 ==> weight.png
+    python3 plot.py
+
+    # 体重と画像を Twitter へ投稿
+    cd ~/diet-tweet/
+    MEDIA_UPLOAD=`twurl -H upload.twitter.com -X POST "/1.1/media/upload.json" --file "/home/okkey/csv-graph/weight.png" --file-field "media"`
+    env WEIGHT=$ARG MEDIA_UPLOAD_RES=$MEDIA_UPLOAD stack exec diet-tweet-exe
+    echo Tweeted!
+    cd ~/
+fi
