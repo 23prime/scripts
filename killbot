@@ -1,0 +1,6 @@
+#!/bin/sh -eu
+
+PROCESS=$1
+ID=`ps -e | grep "$PROCESS" | cut -c 1-5`
+kill $ID
+echo "${ID}\nThese processes are killed."
