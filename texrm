@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ARG=$1
+
 # 削除対象ファイルの指定
 targets=(
     *.dvi
@@ -12,19 +14,22 @@ targets=(
     *.vrb
     *.loa
     texput*
+    *.fdb_latexmk
+    *.fls
+    *.gz
 )
 
 # 対象ファイルの探索して配列化
 files=()
 for i in ${targets[@]}; do
-    files+=(`find ./ -maxdepth 1 -name "${i}"`)
+    files+=(`find -maxdepth 1 -name "${i}"`)
 done
 
 # 実行部
 if [ "${#files[@]}" -eq 0 ]; then # ファイルの有無を確認
     echo "No such files."
     exit 1
-else
+elif [ $# -eq 0 ]; then
     for j in ${files[@]}; do # 対象ファイルの表示
         echo "${j}"
     done
@@ -40,4 +45,16 @@ else
             echo "Canceled." ;;
     esac
     exit 0
+elif [ $# -eq 1 -a $ARG = "-y" ]; then
+    for j in ${files[@]}; do # 対象ファイルの表示
+        echo "${j}"
+    done
+    for i in ${files[@]}; do
+        rm -rf "${i}"
+    done
+    echo "These files have been Removed!"
+    exit 0
+else
+    echo "Error: Invalid arguments." 1>&2
+    exit 1
 fi
