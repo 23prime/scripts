@@ -127,7 +127,6 @@ class EvinceWindowProxy:
             self.window = dbus.Interface(window_obj,self.EV_WINDOW_IFACE)
             self.window.connect_to_signal("SyncSource", self.on_sync_source)
         else:
-            #That should never happen.
             if self._log:
                 self._log.debug("GetWindowList returned empty list")
 
@@ -135,16 +134,9 @@ class EvinceWindowProxy:
         import subprocess
         import re
         print(input_file + ':' + str(source_link[0]))
-        # This is probably useless
         input_file = input_file.replace("%20", " ")
-        # This is to deal with source files with non-ascii names
-        # We get url-quoted UTF-8 from dbus; convert to url-quoted ascii
-        # and then unquote. If you don't first convert ot ascii, it fails.
-        # It's a bit magical, but it seems to work
-        #input_file = urllib.parse.unquote(input_file.encode('ascii'))
         input_file = urllib.parse.unquote(input_file)
         print(type(input_file), input_file)
-        #cmd = re.sub("%f", input_file, self.editor)
         cmd = re.sub("%f", input_file.replace('file://', ''), self.editor)
         cmd = re.sub("%l", str(source_link[0]), cmd)
         print(cmd)
