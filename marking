@@ -1,16 +1,28 @@
 #!/bin/sh
-# TA の採点の手間を多少省けるように．
 
-ls ./201******-**.hs >/dev/null 2>&1
-if [ $? -ne 0 ]
-then echo "no files to mark"
-     # 採点対象のファイルがないとき
-elif [ -e ./marked/ ]
-then echo "already marked"
-     # 採点済みファイルの上書き防止
-else mkdir marked/
-     cp 201******-**.hs marked/ # 返却用にコピー
-     cd marked/
-     nkf -w --overwrite 201******-**.hs # utf-8 にする
-     rename s/.hs/-okkey.hs/g ./201******-**.hs # 返却用に rename
+NO=$1 # Get report numbur from argument.
+DIR="Report$NO"
+
+if [ $# -ne 1 ] # Check number of arguments.
+then
+    echo "Please give only one argument as Report Number."
+    exit 1
+else
+    ls ./201******-$NO.hs >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        echo "No files to mark."
+        exit 1
+    elif [ -e $DIR ] # Check Report$NO have already exist or not.
+    then
+        echo "Already marked."
+        exit 1
+    else
+        mkdir $DIR
+        mv 201******-$NO.hs $DIR # Move for return.
+        cd $DIR
+        nkf -w --overwrite 201******-$NO.hs # Convert to UTF-8.
+        rename s/.hs/-okkey.hs/g ./201******-$NO.hs # Rename for return.
+        exit 0
+    fi
 fi
