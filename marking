@@ -1,21 +1,21 @@
 #!/bin/sh
 
 NO=$1 # Get report numbur from argument.
-DIR="Report$NO"
+DIR="report$NO"
 
 if [ $# -ne 1 ] # Check number of arguments.
 then
     echo "Please give only one argument as Report Number."
+    exit 1
+elif [ -e $DIR ] # Check directory "report$NO" have already exist or not.
+then
+    echo "Already marked."
     exit 1
 else
     ls ./201******-$NO.hs >/dev/null 2>&1
     if [ $? -ne 0 ]
     then
         echo "No files to mark."
-        exit 1
-    elif [ -e $DIR ] # Check Report$NO have already exist or not.
-    then
-        echo "Already marked."
         exit 1
     else
         mkdir $DIR
