@@ -22,7 +22,8 @@ else
         mv 201******-$NO.hs $DIR # Move for return.
         cd $DIR
         nkf -w --overwrite 201******-$NO.hs # Convert to UTF-8.
-        rename s/.hs/-okkey.hs/g ./201******-$NO.hs # Rename for return.
+        rename s/.hs/-okkey.hs/g ./201******-$NO.hs # Rename for mark.
+        emacs 201******-$NO-okkey.hs ../saiten-memo.txt # Open all files on Emacs.
         exit 0
     fi
 fi
