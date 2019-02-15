@@ -1,0 +1,26 @@
+#!/bin/zsh
+
+NO=$1
+
+
+if [ $# -ne 1 ] # Check number of arguments.
+then
+    echo "Error: Give an argument"
+    exit 1
+else
+
+    echo "################################ Start solving ################################"
+    # maple seq-problems/myProblems/MyProblem$NO-seq-fol.mpl
+    # maple seq-problems/papers/Paper$NO-seq-fol.mpl
+    maple $NO.mpl
+
+    echo "\n################################ Print  logs ################################"
+    # cat seq-problems/papers/Paper$NO-seq-fol.css_log
+    cat $NO.css_log
+
+    echo "\n\n################################ Print answer ################################"
+    # cat seq-problems/papers/Paper$NO-seq-fol.xml
+    cat $NO.xml
+
+    exit 0
+fi

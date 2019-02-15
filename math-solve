@@ -1,0 +1,14 @@
+#!/bin/sh
+
+NO=$1
+
+if [ $# -ne 1 ] # Check number of arguments.
+then
+    echo "Error: Give an argument"
+    exit 1
+else
+    compile-problem $NO
+    make-solver-input $NO
+    solve-problem $NO
+    exit 0
+fi

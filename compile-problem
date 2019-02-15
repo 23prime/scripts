@@ -1,0 +1,14 @@
+#!/bin/sh
+
+NO=$1
+
+if [ $# -ne 1 ] # Check number of arguments.
+then
+    echo "Error: Give an argument"
+    exit 1
+else
+    # make seq-problems/myProblems/MyProblem$NO-seq-fol.hs
+    # make seq-problems/papers/Paper$NO-seq-fol.hs
+    make $NO
+    # exit 0
+fi

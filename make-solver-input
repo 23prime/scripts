@@ -1,0 +1,22 @@
+#!/bin/sh
+
+NO=$1
+
+if [ $# -ne 1 ] # Check number of arguments.
+then
+    echo "Error: Give an argument"
+    exit 1
+else
+    stack exec center-seq-solver $NO.hs $NO p
+
+    # For papers
+    # stack exec center-seq-solver seq-problems/papers/Paper$NO-seq-fol.hs seq-problems/papers/Paper$NO-seq-fol p
+
+    # For myProblems
+    # stack exec center-seq-solver seq-problems/myProblems/MyProblem$NO-seq-fol.hs seq-problems/myProblems/MyProblem$NO-seq-fol p
+    #./src/ParseToSeqSolver seq-problems/myProblems/MyProblem$NO-seq-fol.hs seq-problems/myProblems/MyProblem$NO-seq-fol p
+
+    # cat seq-problems/myProblems/MyProblem$NO-seq-fol.mpl
+    cat $NO.mpl
+    exit 0
+fi

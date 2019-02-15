@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo /usr/lib/x86_64-linux-gnu/nm-l2tp-service --debug &
+nmcli con up id tsukuba-l2tp -a
