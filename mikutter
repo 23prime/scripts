@@ -1,0 +1,22 @@
+#!/bin/sh -eu
+
+DIR=~/mikutter
+ruby2.5 $DIR/mikutter.rb &
+
+while true
+do
+RSS=`ps aux | grep ruby2.5 | grep mikutter | awk '{print $6}'`
+PID=`ps aux | grep ruby2.5 | grep mikutter | awk '{print $2}'`
+
+if [ -z $RSS ]; then
+    exit 0
+elif [ $RSS -gt 2000000 ]; then
+    ruby2.5 $DIR/mikutter.rb &
+    sleep 10
+    kill $PID
+else
+    :
+fi
+
+sleep 60
+done
